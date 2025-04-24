@@ -2,11 +2,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.gmail.bobason01</groupId>
-    <artifactId>HotkeyManager</artifactId>
+    <groupId>com.github.galaxyily</groupId>
+    <artifactId>HotkeyEvent</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <name>HotkeyManager</name>
+    <name>HotkeyEvent</name>
     <description>Custom HotKey Plugin</description>
     <repositories>
         <repository>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- ProtocolLib -->
