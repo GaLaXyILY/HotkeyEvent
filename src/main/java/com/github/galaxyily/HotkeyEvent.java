@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public class HotkeyManager extends JavaPlugin implements Listener {
+public class HotkeyEvent extends JavaPlugin implements Listener {
 
     private final Map<String, HotkeyAction> hotkeyMap = new HashMap<>();
     private final Map<UUID, Long> lCooldowns = new HashMap<>();
@@ -28,7 +28,7 @@ public class HotkeyManager extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("hotkeyreload")).setExecutor((sender, command, label, args) -> {
             reloadConfig();
             loadHotkeys();
-            sender.sendMessage("§aHotkeyManager config reloaded.");
+            sender.sendMessage("§aHotkeyEvent config reloaded.");
             return true;
         });
     }
@@ -57,7 +57,7 @@ public class HotkeyManager extends JavaPlugin implements Listener {
 
                 if (sneaking) {
                     if (!hotkeyMap.containsKey("SHIFT_L")) return;
-                    Bukkit.getScheduler().runTask(HotkeyManager.this, () -> {
+                    Bukkit.getScheduler().runTask(HotkeyEvent.this, () -> {
                         lCooldowns.put(player.getUniqueId(), System.currentTimeMillis());
                         handleKey("SHIFT_L", player);
                     });
@@ -65,7 +65,7 @@ public class HotkeyManager extends JavaPlugin implements Listener {
                     if (!hotkeyMap.containsKey("L")) return;
                     Long last = lCooldowns.get(player.getUniqueId());
                     if (last != null && System.currentTimeMillis() - last < lCooldownMillis) return;
-                    Bukkit.getScheduler().runTask(HotkeyManager.this, () -> handleKey("L", player));
+                    Bukkit.getScheduler().runTask(HotkeyEvent.this, () -> handleKey("L", player));
                 }
             }
         });
