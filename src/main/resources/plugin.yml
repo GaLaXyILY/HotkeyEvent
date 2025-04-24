@@ -1,7 +1,7 @@
-name: HotkeyManager
-main: com.gmail.bobason01.HotkeyManager
+name: HotkeyEvent
+main: com.github.galaxyily.HotkeyEvent
 description: Custom Hotkey Manager
-author: crston
+author: galaxyily
 version: 1.1
 api-version: 1.16
 depend: [ProtocolLib]
