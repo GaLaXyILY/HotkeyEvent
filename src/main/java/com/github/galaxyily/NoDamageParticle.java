@@ -1,49 +1,44 @@
 package com.github.galaxyily;
 
 import com.github.retrooper.packetevents.PacketEvents;
-import com.github.retrooper.packetevents.event.PacketListenerAbstract;
-import com.github.retrooper.packetevents.event.impl.PacketSendEvent;
-import com.github.retrooper.packetevents.manager.settings.PacketEventsSettings;
-import com.github.retrooper.packetevents.packettype.PacketTypePlayServer;
+import com.github.retrooper.packetevents.event.simple.SimplePacketAdapter;
+import com.github.retrooper.packetevents.packettype.clientbound.Particle;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWorldParticles;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin
+import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
+    private Logger logger;
 
     @Override
     public void onEnable() {
-        // Cấu hình PacketEvents
-        PacketEventsSettings settings = PacketEvents.get().getSettings();
-        settings.bStats(false);
-        settings.checkForUpdates(false);
+        logger = getLogger();
 
-        // Load PacketEvents
+        // Cấu hình PacketEvents
+        PacketEvents.get().getSettings()
+                .bStats(false)
+                .checkForUpdates(false);
         PacketEvents.get().load();
 
-        // Đăng ký PacketListener
-        PacketEvents.get().getEventManager().registerListener(new PacketListener());
+        // Đăng ký listener chặn DAMAGE_INDICATOR
+        PacketEvents.get().getEventManager().registerListener(new SimplePacketAdapter(this) {
+            @Override
+            public void onPacketPlayOutWorldParticles(WrapperPlayServerWorldParticles packet) {
+                if (packet.getParticle() == Particle.DAMAGE_INDICATOR) {
+                    packet.setCancelled(true);
+                }
+            }
+        });
 
-        // Init PacketEvents
         PacketEvents.get().init();
-
-        getLogger().info("NoDamageParticle enabled (PacketEvents 2.8.0, Java 21)");
+        logger.info("NoDamageParticle enabled with PacketEvents 2.8.0");
     }
 
     @Override
     public void onDisable() {
         PacketEvents.get().terminate();
-        getLogger().info("NoDamageParticle disabled.");
-    }
-
-    private static class PacketListener extends PacketListenerAbstract {
-        @Override
-        public void onPacketSend(PacketSendEvent event) {
-            if (event.getPacketType() == PacketTypePlayServer.WORLD_PARTICLES) {
-                WrapperPlayServerWorldParticles packet = new WrapperPlayServerWorldParticles(event);
-                if (packet.getParticle().name().equalsIgnoreCase("damage_indicator")) {
-                    event.setCancelled(true);
-                }
-            }
-        }
+        logger.info("NoDamageParticle disabled.");
     }
 }
