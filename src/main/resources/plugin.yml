@@ -1,12 +1,7 @@
-name: HotkeyEvent
-main: com.github.galaxyily.HotkeyEvent
-description: Custom Hotkey Manager
+name: NoDamageParticle
+main: com.github.galaxyily.NoDamageParticle
+description: NoDamageParticle
 author: galaxyily
-version: 1.1
-api-version: 1.16
-depend: [ProtocolLib]
-commands:
-  hotkeyreload:
-    description: Reload HotkeyManager config
-    permission: hotkeymanager.reload
-    usage: /hotkeyreload
+version: 1.0
+api-version: 1.20
+depend: [PacketEvents]
