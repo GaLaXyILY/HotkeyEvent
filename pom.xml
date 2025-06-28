@@ -4,11 +4,11 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.galaxyily</groupId>
-    <artifactId>RemoverDamageParticle</artifactId>
+    <artifactId>NoDamageParticle</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>RemoverDamageParticle</name>
+    <name>NoDamageParticle</name>
     <description>Remover Damage Particle</description>
 
     <properties>
