@@ -6,7 +6,7 @@ import com.github.retrooper.packetevents.packettype.clientbound.Particle;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWorldParticles;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
