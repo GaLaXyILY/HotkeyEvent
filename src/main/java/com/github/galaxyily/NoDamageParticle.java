@@ -4,41 +4,44 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketListenerAbstract;
 import com.github.retrooper.packetevents.event.impl.PacketSendEvent;
 import com.github.retrooper.packetevents.manager.settings.PacketEventsSettings;
-import com.github.retrooper.packetevents.packettype.PacketType;
+import com.github.retrooper.packetevents.packettype.PacketTypePlayServer;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWorldParticles;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Cấu hình PacketEvents (không check update, tắt bStats)
-        PacketEvents.get().getSettings()
-                .bStats(false)
-                .checkForUpdates(false);
+        // Cấu hình PacketEvents
+        PacketEventsSettings settings = PacketEvents.get().getSettings();
+        settings.bStats(false);
+        settings.checkForUpdates(false);
+
+        // Load PacketEvents
         PacketEvents.get().load();
 
-        // Đăng ký listener packet
+        // Đăng ký PacketListener
         PacketEvents.get().getEventManager().registerListener(new PacketListener());
 
-        // Khởi chạy PacketEvents
+        // Init PacketEvents
         PacketEvents.get().init();
-        getLogger().info("Plugin đã được kích hoạt.");
+
+        getLogger().info("NoDamageParticle enabled (PacketEvents 2.8.0, Java 21)");
     }
 
     @Override
     public void onDisable() {
         PacketEvents.get().terminate();
-        getLogger().info("Plugin đã bị vô hiệu hóa.");
+        getLogger().info("NoDamageParticle disabled.");
     }
 
-    public static class PacketListener extends PacketListenerAbstract {
+    private static class PacketListener extends PacketListenerAbstract {
         @Override
         public void onPacketSend(PacketSendEvent event) {
-            if (event.getPacketType() == PacketType.Play.Server.WORLD_PARTICLES) {
-                WrapperPlayServerWorldParticles wrapper = new WrapperPlayServerWorldParticles(event);
-                if (wrapper.getParticle().name().equalsIgnoreCase("damage_indicator")) {
-                    event.setCancelled(true); // Chặn particle DAMAGE_INDICATOR
+            if (event.getPacketType() == PacketTypePlayServer.WORLD_PARTICLES) {
+                WrapperPlayServerWorldParticles packet = new WrapperPlayServerWorldParticles(event);
+                if (packet.getParticle().name().equalsIgnoreCase("damage_indicator")) {
+                    event.setCancelled(true);
                 }
             }
         }
